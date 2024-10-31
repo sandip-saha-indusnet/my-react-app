@@ -1,3 +1,9 @@
+:root {
+  --selected: #000;
+  --hovered: #2ecc71;
+  /* --font-size-large: 2rem; */
+}
+
 .ss-daterangepicker {
   position: absolute;
   color: inherit;
@@ -382,11 +388,11 @@
 }
 .ss-daterangepicker .ranges li:hover {
   background-color: #ecf8ff;
-  color: #009ef7;
+  color: var(--selected);
   transition: color 0.2s ease, background-color 0.2s ease;
 }
 .ss-daterangepicker .ranges li.active {
-  background-color: #009ef7;
+  background-color: var(--selected);
   color: #fff;
   transition: color 0.2s ease, background-color 0.2s ease;
 }
@@ -605,9 +611,9 @@
 }
 .ss-daterangepicker .drp-calendar td.available:hover,
 .ss-daterangepicker .drp-calendar th.available:hover {
-  border-radius: 0.475rem;
+  border-radius: 50%;
   background-color: #ecf8ff;
-  color: #009ef7;
+  color: var(--selected);
 }
 .ss-daterangepicker .drp-calendar th {
   font-weight: 500;
@@ -624,7 +630,7 @@
 }
 .ss-daterangepicker .drp-calendar th.next.available:hover span,
 .ss-daterangepicker .drp-calendar th.prev.available:hover span {
-  border-color: #009ef7;
+  border-color: var(--selected);
 }
 .ss-daterangepicker .drp-calendar th.next span {
   margin-right: 1px;
@@ -639,36 +645,36 @@
   color: #b5b5c3;
 }
 .ss-daterangepicker .drp-calendar td.active {
-  background-color: #009ef7 !important;
+  background-color: var(--selected) !important;
   color: #fff !important;
-  border-radius: 0.475rem;
+  border-radius: 50%;
 }
 .ss-daterangepicker .drp-calendar td.active.start-date {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  /* border-top-right-radius: 0;
+  border-bottom-right-radius: 0; */
 }
 .ss-daterangepicker .drp-calendar td.active.end-date {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  /* border-top-left-radius: 0;
+  border-bottom-left-radius: 0; */
 }
 .ss-daterangepicker .drp-calendar td.active.start-date.end-date {
   border-radius: 0.475rem;
 }
 .ss-daterangepicker .drp-calendar td.today,
 .ss-daterangepicker .drp-calendar td.today.active {
-  background: #ecf8ff !important;
-  color: #009ef7 !important;
-  border-radius: 0.475rem;
+  background: #ecf8ff;
+  color: var(--selected);
+  border-radius: 50%;
 }
 .ss-daterangepicker
   .drp-calendar
   td.in-range.available:not(.active):not(.off):not(.today) {
   background-color: #ecf8ff;
-  color: #009ef7;
+  color: var(--selected);
 }
 .ss-daterangepicker .drp-calendar td:hover {
   background-color: #ecf8ff;
-  color: #009ef7;
+  color: var(--selected);
 }
 .ss-daterangepicker select.ampmselect,
 .ss-daterangepicker select.hourselect,

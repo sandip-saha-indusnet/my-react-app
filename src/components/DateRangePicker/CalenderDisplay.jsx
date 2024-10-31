@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import getCalendarData from "./getCalendarData";
-import "./date-range-picker.css";
 
 const CalendarDisplay = ({
   startDate,
@@ -116,7 +115,7 @@ const CalendarDisplay = ({
                     <td
                       key={i}
                       className={dateClassNames}
-                      onMouseOver={(e) => {
+                      onMouseOver={() => {
                         setHoveredDate(momentDate.clone());
                       }}
                       onClick={(e) => {
@@ -132,7 +131,7 @@ const CalendarDisplay = ({
                         onEndDateSelect(momentDate.clone());
                       }}
                     >
-                      {momentDate.date()}
+                      <span>{momentDate.date()}</span>
                     </td>
                   );
                 })}

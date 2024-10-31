@@ -160,30 +160,6 @@ export default function DateRangePickerTag({
         // style={{ ...props.style }}
         // ref={props.ref}
       >
-        <div className="ranges">
-          <ul>
-            {rangesRef.current.map(({ status, range }) => (
-              <li
-                key={status}
-                className={activeStatus === status ? "active" : ""}
-                onClick={() => {
-                  setStartDate(range[0]);
-                  setEndDate(range[1]);
-                  setShowCalendar(false);
-                  applyChanges(range[0], range[1], status);
-                }}
-              >
-                {status}
-              </li>
-            ))}
-            <li
-              className={activeStatus === "Custom" ? "active" : ""}
-              onClick={() => setShowCalendar(true)}
-            >
-              Custom Range
-            </li>
-          </ul>
-        </div>
         {showCalendar && (
           <>
             <Calendar
@@ -200,7 +176,6 @@ export default function DateRangePickerTag({
               <button
                 className="cancelBtn btn btn-sm btn-default"
                 type="button"
-                fdprocessedid="36q17a"
                 onClick={discardChanges}
               >
                 Cancel
@@ -210,7 +185,6 @@ export default function DateRangePickerTag({
                 disabled={!endDate}
                 onClick={() => applyChanges(startDate, endDate, activeStatus)}
                 type="button"
-                fdprocessedid="61glbh"
               >
                 Apply
               </button>
