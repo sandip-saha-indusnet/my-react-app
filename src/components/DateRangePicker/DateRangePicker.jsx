@@ -85,7 +85,6 @@ export default function DateRangePickerTag({
   );
 
   const [showCalendar, setShowCalendar] = useState(false);
-  const rangesRef = useRef(ranges);
 
   const [showOverlay, setShowOverlay] = useState(false);
   const inputRef = useRef(null);
@@ -128,7 +127,7 @@ export default function DateRangePickerTag({
   };
 
   return (
-    <div className="ss-daterangepicker-container">
+    <div className="my-date-range-picker-container">
       <button
         type="button"
         className="form-control text-left"
@@ -156,7 +155,7 @@ export default function DateRangePickerTag({
       >
         {(props) => ( */}
       <div
-        className="ss-daterangepicker ltr show-ranges show-calendar z-index-1051"
+        className="my-date-range-picker ltr show-ranges show-calendar z-index-1051"
         // style={{ ...props.style }}
         // ref={props.ref}
       >
