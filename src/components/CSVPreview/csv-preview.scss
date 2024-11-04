@@ -1,0 +1,50 @@
+.csv-preview__table {
+  border-collapse: collapse;
+  //   table-layout: fixed;
+  // upon making sticky it's losing its border
+  //   thead {
+  //     position: sticky;
+  //     top: 0;
+  //     background-color: #fff;
+  //   }
+  td,
+  th {
+    border: 2px solid grey;
+  }
+  &__row-numbering {
+    text-align: center;
+    width: min-content !important;
+    background-color: #fff;
+  }
+}
+
+.csv-preview {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  overflow: scroll;
+  &--resizing {
+    &--right {
+      cursor: col-resize;
+    }
+    &--bottom {
+      cursor: row-resize;
+    }
+  }
+  &__resize-indicator {
+    position: absolute;
+    background: dodgerblue;
+    &--vertical {
+      top: 0;
+      height: 100vh;
+      width: 5px;
+      transform: translateX(-50%);
+    }
+    &--horizontal {
+      left: 0;
+      width: 100vw;
+      height: 5px;
+      transform: translateY(-50%);
+    }
+  }
+}

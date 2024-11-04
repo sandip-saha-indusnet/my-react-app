@@ -1,0 +1,29 @@
+:root {
+  --blue: #1e90ff;
+  --white: #ffffff;
+}
+.resizable-box {
+  box-sizing: border-box;
+  position: relative;
+}
+
+.resizable-box__handle {
+  z-index: 100;
+  position: absolute;
+}
+.resizable-box__handle-right {
+  width: 10px;
+  height: 100%;
+  right: 0;
+  bottom: 0;
+  cursor: col-resize;
+  transform: translateX(50%);
+}
+.resizable-box__handle-bottom {
+  width: 100%;
+  height: 10px;
+  left: 0;
+  bottom: 0;
+  cursor: row-resize;
+  transform: translateY(50%);
+}

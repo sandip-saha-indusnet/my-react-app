@@ -66,10 +66,7 @@ const CSVTable = ({ base64String }) => {
                       display: "block",
                     }}
                     onMouseOver={() => {
-                      console.log("mouseover");
-
                       if (colIndex !== 0) {
-                        console.log("set");
                         setCurrentHover(colIndex - 1);
                       }
                     }}
