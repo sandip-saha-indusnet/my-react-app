@@ -118,3 +118,10 @@ $border: 1px solid #00000017;
     border-top: $border;
   }
 }
+
+.date-range-picker-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+}

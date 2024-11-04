@@ -5,10 +5,12 @@ import Calendar from "./Calendar";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import "./date-range-picker.css";
 import "./date-range-picker-style-edit.scss";
+import { Overlay } from "react-bootstrap";
+import { CiCalendar } from "react-icons/ci";
 
 const locale = {
   direction: "ltr",
-  format: "D-MMM-YY",
+  format: "DD/MM/YYYY",
   separator: " - ",
   applyLabel: "Apply",
   cancelLabel: "Cancel",
@@ -23,7 +25,7 @@ export default function DateRangePickerTag({
   defaultStartDate,
   defaultEndDate,
   onDateRangeChange,
-  //   placement = "bottom-start",
+  placement = "bottom-start",
   maxSpan,
 }) {
   const [startDate, setStartDate] = useState(defaultStartDate);
@@ -39,12 +41,10 @@ export default function DateRangePickerTag({
     formatDateRangeInput(startDate, endDate)
   );
 
-  const [showCalendar, setShowCalendar] = useState(true);
+  const [showOverlay, setShowOverlay] = useState(false);
+  const buttonRef = useRef(null);
 
-  // const [showOverlay, setShowOverlay] = useState(false);
-  const inputRef = useRef(null);
-
-  // const handleClick = () => setShowOverlay(true);
+  const handleClick = () => setShowOverlay(true);
 
   const triggerOnNewDateRangeApply = (startDate, endDate) => {
     onDateRangeChange({
@@ -55,13 +55,13 @@ export default function DateRangePickerTag({
 
   const applyChanges = (startDate, endDate) => {
     previouslyAppliedDateRange.current = { startDate, endDate };
-    // setShowOverlay(false);
+    setShowOverlay(false);
     setDateRangeInput(formatDateRangeInput(startDate.clone(), endDate.clone()));
     triggerOnNewDateRangeApply(startDate.clone(), endDate.clone());
   };
 
   const discardChanges = () => {
-    // setShowOverlay(false);
+    setShowOverlay(false);
     setStartDate(previouslyAppliedDateRange.current.startDate.clone());
     setEndDate(previouslyAppliedDateRange.current.endDate.clone());
     setDateRangeInput(
@@ -76,75 +76,77 @@ export default function DateRangePickerTag({
     <div className="my-date-range-picker-container">
       <button
         type="button"
-        className="form-control text-left"
-        ref={inputRef}
-        // onClick={handleClick}
+        className="date-range-picker-button"
+        ref={buttonRef}
+        onClick={handleClick}
       >
-        <span>{dateRangeInput || "Pick date range"}</span>
+        <span>{dateRangeInput}</span> <CiCalendar />
       </button>
-      {/* <Overlay
+      <Overlay
         show={showOverlay}
-        target={inputRef.current}
+        target={buttonRef.current}
         placement={placement}
         rootClose={true}
         onHide={() => {
           if (showOverlay) {
             if (endDate)
-              return applyChanges(
-                startDate.clone(),
-                endDate.clone(),
-              );
+              return applyChanges(startDate.clone(), endDate.clone());
             discardChanges();
           }
         }}
       >
-        {(props) => ( */}
-      <div
-        className="my-date-range-picker ltr show-ranges show-calendar z-index-1051"
-        // style={{ ...props.style }}
-        // ref={props.ref}
-      >
-        {showCalendar && (
-          <>
-            <div className="head-text">
-              <IoIosInformationCircleOutline size="25" />
-              <span>
-                This will only impact state and time-related fields in the table
-                over time.
-              </span>
-            </div>
-            <Calendar
-              locale={locale}
-              {...{ startDate, endDate, maxSpan }}
-              onStartDateSelect={setStartDate}
-              onEndDateSelect={setEndDate}
-            />
-            <div className="drp-buttons">
-              <span className="drp-selected">
-                {startDate?.format(locale.format)} {locale.separator}{" "}
-                {endDate?.format(locale.format)}
-              </span>
-              <button
-                className="cancelBtn btn btn-sm btn-default"
-                type="button"
-                onClick={discardChanges}
-              >
-                Cancel
-              </button>
-              <button
-                className="applyBtn btn btn-sm btn-primary"
-                disabled={!endDate}
-                onClick={() => applyChanges(startDate, endDate)}
-                type="button"
-              >
-                Apply
-              </button>
-            </div>
-          </>
+        {({
+          placement: _placement,
+          arrowProps: _arrowProps,
+          show: _show,
+          popper: _popper,
+          hasDoneInitialMeasure: _hasDoneInitialMeasure,
+          ...props
+        }) => (
+          <div
+            className="my-date-range-picker ltr show-ranges show-calendar z-index-1051"
+            style={{ ...props.style }}
+            {...props}
+          >
+            <>
+              <div className="head-text">
+                <IoIosInformationCircleOutline size="25" />
+                <span>
+                  This will only impact state and time-related fields in the
+                  table over time.
+                </span>
+              </div>
+              <Calendar
+                locale={locale}
+                {...{ startDate, endDate, maxSpan }}
+                onStartDateSelect={setStartDate}
+                onEndDateSelect={setEndDate}
+              />
+              <div className="drp-buttons">
+                <span className="drp-selected">
+                  {startDate?.format(locale.format)} {locale.separator}{" "}
+                  {endDate?.format(locale.format)}
+                </span>
+                <button
+                  className="cancelBtn btn btn-sm btn-default"
+                  type="button"
+                  onClick={discardChanges}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="applyBtn btn btn-sm btn-primary"
+                  disabled={!endDate}
+                  onClick={() => applyChanges(startDate, endDate)}
+                  type="button"
+                >
+                  Apply
+                </button>
+              </div>
+            </>
+          </div>
         )}
-      </div>
-      {/* )}
-      </Overlay> */}
+      </Overlay>
     </div>
   );
 }
