@@ -141,7 +141,7 @@
   border-radius: 4px;
   border: 1px solid transparent;
   white-space: nowrap;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 .my-date-range-picker .calendar-table {
   border: 1px solid #fff;
@@ -289,7 +289,7 @@
 .my-date-range-picker .ranges li {
   font-size: 12px;
   padding: 8px 12px;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 .my-date-range-picker .ranges li:hover {
   background-color: #eee;
@@ -645,7 +645,7 @@
   color: #b5b5c3;
 }
 .my-date-range-picker .drp-calendar td.active {
-  background-color: var(--selected) !important;
+  background-color: var(--selected);
   color: #fff !important;
   border-radius: 50%;
 }

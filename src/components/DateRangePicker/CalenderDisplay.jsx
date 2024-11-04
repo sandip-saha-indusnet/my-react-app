@@ -1,5 +1,7 @@
 import { useMemo } from "react";
 import getCalendarData from "./getCalendarData";
+import { MdArrowBackIos } from "react-icons/md";
+import { MdArrowForwardIos } from "react-icons/md";
 
 const CalendarDisplay = ({
   startDate,
@@ -29,8 +31,8 @@ const CalendarDisplay = ({
           <thead>
             <tr>
               {side === "left" ? (
-                <th className="prev available" onClick={onPrevClick}>
-                  <span></span>
+                <th className="move-arrow prev" onClick={onPrevClick}>
+                  <MdArrowBackIos size={20} />
                 </th>
               ) : (
                 <th></th>
@@ -41,8 +43,8 @@ const CalendarDisplay = ({
               </th>
 
               {side === "right" ? (
-                <th className="next available" onClick={onNextClick}>
-                  <span></span>
+                <th className="move-arrow next" onClick={onNextClick}>
+                  <MdArrowForwardIos size={20} />
                 </th>
               ) : (
                 <th></th>
@@ -58,25 +60,28 @@ const CalendarDisplay = ({
             {calendarData.map((rowData, i) => (
               <tr key={i}>
                 {rowData.map((momentDate, i) => {
-                  const classes = [];
+                  const classSet = new Set();
                   //highlight today's date
                   if (momentDate.isSame(new Date(), "day"))
-                    classes.push("today");
+                    classSet.add("today");
 
                   //highlight weekends
-                  if (momentDate.isoWeekday() > 5) classes.push("weekend");
+                  if (momentDate.isoWeekday() > 5) classSet.add("weekend");
 
                   //grey out the dates in other months displayed at beginning and end of this calendar
-                  if (momentDate.month() !== calendarData[1][1].month())
-                    classes.push("off", "ends");
+                  if (momentDate.month() !== calendarData[1][1].month()) {
+                    classSet.add("off");
+                    classSet.add("ends");
+                  }
 
                   //highlight the currently selected start date
                   if (
                     momentDate.format("YYYY-MM-DD") ===
                     startDate.format("YYYY-MM-DD")
-                  )
-                    classes.push("active", "start-date");
-
+                  ) {
+                    classSet.add("active");
+                    classSet.add("start-date");
+                  }
                   //don't allow selection of dates after the max span date
                   const spanDate = maxSpan
                     ? startDate.clone().add(maxSpan)
@@ -85,35 +90,46 @@ const CalendarDisplay = ({
                     !endDate &&
                     spanDate &&
                     momentDate.isAfter(spanDate, "day")
-                  )
-                    classes.push("off", "disabled");
-
+                  ) {
+                    classSet.add("off");
+                    classSet.add("disabled");
+                  }
                   //highlight the currently selected end date
                   if (
                     endDate !== null &&
                     momentDate.format("YYYY-MM-DD") ===
                       endDate.format("YYYY-MM-DD")
-                  )
-                    classes.push("active", "end-date");
-
+                  ) {
+                    classSet.add("active");
+                    classSet.add("end-date");
+                  }
                   //highlight dates in-between the selected dates
                   if (
                     endDate !== null &&
-                    momentDate > startDate &&
-                    momentDate < endDate
+                    momentDate >= startDate &&
+                    momentDate <= endDate
                   )
-                    classes.push("in-range");
+                    classSet.add("in-range");
                   if (
                     !endDate &&
                     startDate < hoveredDate &&
                     startDate < momentDate &&
                     momentDate < hoveredDate
                   )
-                    classes.push("in-range");
-                  if (!classes.includes("disabled")) classes.push("available");
-                  const dateClassNames = [...new Set(classes)].join(" ");
+                    classSet.add("in-range");
 
-                  console.log({ dateClassNames });
+                  if (
+                    (startDate < endDate || startDate < hoveredDate) &&
+                    startDate.isSame(endDate) === false
+                  )
+                    classSet.add("add-background-color");
+                  if (!classSet.has("disabled")) classSet.add("available");
+                  if (classSet.has("ends")) {
+                    classSet.delete("active");
+                    classSet.delete("today");
+                  }
+
+                  const dateClassNames = [...classSet].join(" ");
 
                   return (
                     <td
@@ -135,7 +151,9 @@ const CalendarDisplay = ({
                         onEndDateSelect(momentDate.clone());
                       }}
                     >
-                      <span>{momentDate.date()}</span>
+                      <div>
+                        <span>{momentDate.date()}</span>
+                      </div>
                     </td>
                   );
                 })}

@@ -1,5 +1,17 @@
-.my-date-range-picker {
-  font-family: serif, inherit !important;
+.calendar-table {
+  .move-arrow {
+    display: grid;
+    place-items: center;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+    &.prev:hover {
+      transform: translate(-5px);
+    }
+
+    &.next:hover {
+      transform: translate(5px);
+    }
+  }
 }
 
 td,
@@ -8,6 +20,12 @@ th {
   width: 38px !important;
   height: 38px !important;
   font-size: 14px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  color: #7e7e7e;
+  &.available {
+    cursor: pointer;
+  }
 }
 
 th.month {
@@ -27,12 +45,76 @@ th.month {
   td.in-range.available:not(.active):not(.off):not(.today) {
   background-color: #e3edfc !important;
 }
-.in-range {
+.in-range:not(.ends) {
   border-radius: 0 !important;
 }
 .today {
   background-color: #e3edfc !important;
 }
-.ends {
-  background-color: transparent !important;
+td {
+  &:first-child:not(.ends) {
+    border-radius: 50% 0 0 50% !important;
+  }
+  &:last-child:not(.ends) {
+    border-radius: 0 50% 50% 0% !important;
+  }
+  &:hover:not(.in-range) {
+    background: #e3edfc !important;
+    border-radius: 50% !important;
+  }
+  &.active {
+    background-color: transparent !important;
+    &.add-background-color {
+      background-color: #e3edfc !important;
+    }
+    overflow: hidden;
+
+    &.start-date {
+      border-radius: 50% 0 0 50% !important;
+    }
+    &.end-date {
+      border-radius: 0 50% 50% 0% !important;
+    }
+    > div {
+      background: #000;
+      width: 100%;
+      height: 100%;
+      // padding: 5px;
+      // width: 38px;
+      // height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50% !important;
+    }
+  }
+}
+// .off.active.start-date.available.ends {
+//   background-color: #fff !important;
+// }
+
+$border: 1px solid #00000017;
+
+.drp-calendar {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  &.left {
+    border-right: $border;
+  }
+}
+
+.my-date-range-picker {
+  .head-text {
+    border-bottom: $border;
+    padding: 14px 17px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    svg {
+      margin-bottom: 2px;
+    }
+  }
+
+  .drp-buttons {
+    border-top: $border;
+  }
 }

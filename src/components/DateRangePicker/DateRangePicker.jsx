@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import moment from "moment";
 // import { Overlay } from "react-bootstrap";
 import Calendar from "./Calendar";
+import { IoIosInformationCircleOutline } from "react-icons/io";
 import "./date-range-picker.css";
 import "./date-range-picker-style-edit.scss";
 
@@ -105,6 +106,13 @@ export default function DateRangePickerTag({
       >
         {showCalendar && (
           <>
+            <div className="head-text">
+              <IoIosInformationCircleOutline size="25" />
+              <span>
+                This will only impact state and time-related fields in the table
+                over time.
+              </span>
+            </div>
             <Calendar
               locale={locale}
               {...{ startDate, endDate, maxSpan }}
