@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import moment from "moment";
 // import { Overlay } from "react-bootstrap";
 import Calendar from "./Calendar";
@@ -17,42 +17,9 @@ const locale = {
   firstDay: moment.localeData().firstDayOfWeek(),
 };
 
-const defaultRanges = [
-  { status: "Today", range: [moment(), moment()] },
-  {
-    status: "Yesterday",
-    range: [moment().subtract(1, "days"), moment().subtract(1, "days")],
-  },
-  { status: "Last 7 days", range: [moment().subtract(6, "days"), moment()] },
-  { status: "Last 30 days", range: [moment().subtract(29, "days"), moment()] },
-  {
-    status: "This Month",
-    range: [moment().startOf("month"), moment().endOf("month")],
-  },
-  {
-    status: "Last Month",
-    range: [
-      moment().subtract(1, "month").startOf("month"),
-      moment().subtract(1, "month").endOf("month"),
-    ],
-  },
-];
-
-const getStatus = (startDate, endDate, ranges) => {
-  if (!endDate) return "";
-  const status = ranges.find(({ range }) => {
-    return (
-      startDate.format(locale.format) === range[0].format(locale.format) &&
-      endDate.format(locale.format) === range[1].format(locale.format)
-    );
-  });
-
-  return status ? status.status : "Custom";
-};
 export default function DateRangePickerTag({
   defaultStartDate,
   defaultEndDate,
-  ranges = defaultRanges,
   onDateRangeChange,
   //   placement = "bottom-start",
   maxSpan,
@@ -61,61 +28,38 @@ export default function DateRangePickerTag({
   const [endDate, setEndDate] = useState(defaultEndDate);
   const previouslyAppliedDateRange = useRef({ startDate, endDate });
 
-  const activeStatus = useMemo(() => {
-    return getStatus(startDate, endDate, ranges);
-  }, [startDate, endDate, ranges]);
-
   const formatDateRangeInput = (startDateParam, endDateParam) => {
-    const status = getStatus(startDateParam, endDateParam, ranges);
-    if (status === "Custom") {
-      const difference = endDateParam.diff(startDateParam, "years");
-      if (difference >= 1) {
-        return `${startDateParam.format(locale.format)} - ${endDateParam.format(
-          locale.format
-        )}`;
-      }
-      return `${startDateParam.format("D-MMM")} - ${endDateParam.format(
-        "D-MMM"
-      )}`;
-    }
-    return status;
+    return `${startDateParam.format(locale.format)} - ${endDateParam.format(
+      locale.format
+    )}`;
   };
   const [dateRangeInput, setDateRangeInput] = useState(() =>
     formatDateRangeInput(startDate, endDate)
   );
 
-  const [showCalendar, setShowCalendar] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(true);
 
-  const [showOverlay, setShowOverlay] = useState(false);
+  // const [showOverlay, setShowOverlay] = useState(false);
   const inputRef = useRef(null);
 
-  useEffect(() => {
-    if (activeStatus === "Custom") {
-      setShowCalendar(true);
-    }
-  }, [activeStatus]);
+  // const handleClick = () => setShowOverlay(true);
 
-  const handleClick = () => setShowOverlay(true);
-
-  const triggerOnNewDateRangeApply = (startDate, endDate, status) => {
+  const triggerOnNewDateRangeApply = (startDate, endDate) => {
     onDateRangeChange({
-      status,
-      dates: {
-        startDate: startDate.startOf("day"),
-        endDate: endDate.endOf("day"),
-      },
+      startDate: startDate.startOf("day"),
+      endDate: endDate.endOf("day"),
     });
   };
 
-  const applyChanges = (startDate, endDate, status) => {
+  const applyChanges = (startDate, endDate) => {
     previouslyAppliedDateRange.current = { startDate, endDate };
-    setShowOverlay(false);
+    // setShowOverlay(false);
     setDateRangeInput(formatDateRangeInput(startDate.clone(), endDate.clone()));
-    triggerOnNewDateRangeApply(startDate.clone(), endDate.clone(), status);
+    triggerOnNewDateRangeApply(startDate.clone(), endDate.clone());
   };
 
   const discardChanges = () => {
-    setShowOverlay(false);
+    // setShowOverlay(false);
     setStartDate(previouslyAppliedDateRange.current.startDate.clone());
     setEndDate(previouslyAppliedDateRange.current.endDate.clone());
     setDateRangeInput(
@@ -132,7 +76,7 @@ export default function DateRangePickerTag({
         type="button"
         className="form-control text-left"
         ref={inputRef}
-        onClick={handleClick}
+        // onClick={handleClick}
       >
         <span>{dateRangeInput || "Pick date range"}</span>
       </button>
@@ -147,7 +91,6 @@ export default function DateRangePickerTag({
               return applyChanges(
                 startDate.clone(),
                 endDate.clone(),
-                activeStatus
               );
             discardChanges();
           }
@@ -182,7 +125,7 @@ export default function DateRangePickerTag({
               <button
                 className="applyBtn btn btn-sm btn-primary"
                 disabled={!endDate}
-                onClick={() => applyChanges(startDate, endDate, activeStatus)}
+                onClick={() => applyChanges(startDate, endDate)}
                 type="button"
               >
                 Apply

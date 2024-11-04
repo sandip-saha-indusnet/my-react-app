@@ -1,5 +1,4 @@
-import { useCallback, useLayoutEffect, useMemo, useState } from "react";
-import getCalendarData from "./getCalendarData";
+import { useCallback, useLayoutEffect, useState } from "react";
 import moment from "moment";
 import CalendarDisplay from "./CalenderDisplay";
 
