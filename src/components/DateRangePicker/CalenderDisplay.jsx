@@ -25,7 +25,7 @@ const CalendarDisplay = ({
   return (
     <div className={`drp-calendar ${side}`}>
       <div className="calendar-table">
-        <table className="table-condensed">
+        <table className="">
           <thead>
             <tr>
               {side === "left" ? (
@@ -35,9 +35,11 @@ const CalendarDisplay = ({
               ) : (
                 <th></th>
               )}
+
               <th colSpan="5" className="month">
                 {calendarMonthFormatted} {calendarYearFormatted}
               </th>
+
               {side === "right" ? (
                 <th className="next available" onClick={onNextClick}>
                   <span></span>
@@ -110,6 +112,8 @@ const CalendarDisplay = ({
                     classes.push("in-range");
                   if (!classes.includes("disabled")) classes.push("available");
                   const dateClassNames = [...new Set(classes)].join(" ");
+
+                  console.log({ dateClassNames });
 
                   return (
                     <td

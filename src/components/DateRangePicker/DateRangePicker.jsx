@@ -3,6 +3,7 @@ import moment from "moment";
 // import { Overlay } from "react-bootstrap";
 import Calendar from "./Calendar";
 import "./date-range-picker.css";
+import "./date-range-picker-style-edit.scss";
 
 const locale = {
   direction: "ltr",

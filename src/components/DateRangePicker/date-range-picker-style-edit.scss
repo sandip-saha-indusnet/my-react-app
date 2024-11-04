@@ -1,0 +1,38 @@
+.my-date-range-picker {
+  font-family: serif, inherit !important;
+}
+
+td,
+th {
+  box-sizing: border-box;
+  width: 38px !important;
+  height: 38px !important;
+  font-size: 14px !important;
+}
+
+th.month {
+  font-size: 16px !important;
+}
+
+.my-date-range-picker .drp-calendar.left .calendar-table {
+  padding-right: 0px;
+}
+.my-date-range-picker table {
+  border-collapse: separate !important;
+  border-spacing: 0 8px !important;
+}
+
+.my-date-range-picker
+  .drp-calendar
+  td.in-range.available:not(.active):not(.off):not(.today) {
+  background-color: #e3edfc !important;
+}
+.in-range {
+  border-radius: 0 !important;
+}
+.today {
+  background-color: #e3edfc !important;
+}
+.ends {
+  background-color: transparent !important;
+}
