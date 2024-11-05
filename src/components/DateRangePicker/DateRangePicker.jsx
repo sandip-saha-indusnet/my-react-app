@@ -21,7 +21,7 @@ const locale = {
   firstDay: moment.localeData().firstDayOfWeek(),
 };
 
-export default function DateRangePickerTag({
+export default function DateRangePicker({
   defaultStartDate,
   defaultEndDate,
   onDateRangeChange,
